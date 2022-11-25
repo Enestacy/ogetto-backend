@@ -5,13 +5,10 @@ const {
 const { compareAsc, format } = require('date-fns')
 module.exports = (sequelize, DataTypes) => {
   class Task extends Model {
-    /**
-     * Helper method for defining associations.
-     * This method is not a part of Sequelize lifecycle.
-     * The `models/index` file will call this method automatically.
-     */
     static associate(models) {
-      // define association here
+      this.hasOne(models.Tag, {
+        foreignKey: 'tag'
+      });
     }
   }
   Task.init({
@@ -39,6 +36,9 @@ module.exports = (sequelize, DataTypes) => {
       type: DataTypes.DATE,
       defaultValue: format(new Date(Date.now()), 'yyyy/MM/dd h:mm:ss')
     },
+    tag: {
+      type: DataTypes.UUID
+    }
   }, {
     sequelize,
     modelName: 'Task',
