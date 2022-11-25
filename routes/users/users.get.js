@@ -7,7 +7,6 @@ router.get("/users", async function (req, res) {
     const users = await db.User.findAll()
     return res.send(users);
   } catch (error) {
-    console.log(error);
     return res.status(500).send(error);
   }
 });
