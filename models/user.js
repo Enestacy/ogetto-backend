@@ -36,6 +36,12 @@ module.exports = (sequelize, DataTypes) => {
     interests: {
       type: DataTypes.ARRAY(DataTypes.STRING),
       defaultValue: []
+    },
+    about: {
+      type: DataTypes.TEXT
+    },
+    office: {
+      type: DataTypes.STRING
     }
   }, {
     sequelize,
