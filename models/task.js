@@ -2,6 +2,7 @@
 const {
   Model
 } = require('sequelize');
+const { compareAsc, format } = require('date-fns')
 module.exports = (sequelize, DataTypes) => {
   class Task extends Model {
     /**
@@ -22,6 +23,9 @@ module.exports = (sequelize, DataTypes) => {
     title: {
       type: DataTypes.STRING,
     },
+    description: {
+      type: DataTypes.TEXT,
+    },
     point: {
       type: DataTypes.NUMBER
     },
@@ -29,7 +33,12 @@ module.exports = (sequelize, DataTypes) => {
       type: DataTypes.STRING,
       unique: true,
       defaultValue: `${Math.floor(Math.random() * 4)}${(Math.random() + 1).toString(36).substring(7)}`
-    }
+    },
+    createdAt: {
+      allowNull: false,
+      type: DataTypes.DATE,
+      defaultValue: format(new Date(Date.now()), 'yyyy/MM/dd h:mm:ss')
+    },
   }, {
     sequelize,
     modelName: 'Task',

@@ -1,8 +1,10 @@
 'use strict';
 /** @type {import('sequelize-cli').Migration} */
+const { compareAsc, format } = require('date-fns')
+
 module.exports = {
   async up(queryInterface, Sequelize) {
-    await queryInterface.createTable('Tasks', {
+    await queryInterface.createTable('tasks', {
       id: {
         type: Sequelize.UUID,
         primaryKey: true,
@@ -10,6 +12,9 @@ module.exports = {
       },
       title: {
         type: Sequelize.STRING,
+      },
+      description: {
+        type: Sequelize.TEXT,
       },
       point: {
         type: Sequelize.INTEGER,
@@ -21,13 +26,14 @@ module.exports = {
       },
       createdAt: {
         allowNull: false,
-        type: Sequelize.DATE
+        type: Sequelize.DATE,
+        defaultValue: format(new Date(Date.now()), 'yyyy/MM/dd h:mm:ss')
       },
     }, {
       timestamps: false
     });
   },
   async down(queryInterface, Sequelize) {
-    await queryInterface.dropTable('Tasks');
+    await queryInterface.dropTable('tasks');
   }
 };
