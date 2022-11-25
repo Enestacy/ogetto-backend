@@ -6,7 +6,7 @@ const { compareAsc, format } = require('date-fns')
 module.exports = (sequelize, DataTypes) => {
   class Task extends Model {
     static associate(models) {
-      this.hasOne(models.Tag, {
+      this.belongsTo(models.Tag, {
         foreignKey: 'tag'
       });
     }
