@@ -19,3 +19,6 @@ recursive(`${__dirname}/routes/users`)
 
 recursive(`${__dirname}/routes/tasks`)
   .forEach(file => app.use(require(file)));
+
+recursive(`${__dirname}/routes/tags`)
+  .forEach(file => app.use(require(file)));
