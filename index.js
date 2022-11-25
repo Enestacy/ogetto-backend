@@ -14,5 +14,5 @@ app.listen(PORT, () => {
   console.log(`⚡️[server]: Example app listening on port ${PORT}`);
 });
 
-recursive(`${__dirname}/routes/test`)
+recursive(`${__dirname}/routes/users`)
   .forEach(file => app.use(require(file)));
