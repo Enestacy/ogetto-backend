@@ -11,7 +11,7 @@ module.exports = (sequelize, DataTypes) => {
      * The `models/index` file will call this method automatically.
      */
     static associate(models) {
-      // define association here
+      this.belongsToMany(models.Tag, { through: models.User_Tags, onDelete: 'cascade' });
     }
   }
   User.init({
@@ -32,10 +32,6 @@ module.exports = (sequelize, DataTypes) => {
     },
     position: {
       type: DataTypes.STRING,
-    },
-    interests: {
-      type: DataTypes.ARRAY(DataTypes.STRING),
-      defaultValue: []
     },
     about: {
       type: DataTypes.TEXT
