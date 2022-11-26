@@ -2,48 +2,36 @@
 const {
   Model
 } = require('sequelize');
-
 module.exports = (sequelize, DataTypes) => {
-  class User extends Model {
+  class Tag extends Model {
     /**
      * Helper method for defining associations.
      * This method is not a part of Sequelize lifecycle.
      * The `models/index` file will call this method automatically.
      */
     static associate(models) {
-      this.belongsToMany(models.Tag, { through: models.User_Tags, onDelete: 'cascade' });
+      this.hasMany(models.Task, {
+        foreignKey: 'tag',
+        as: 'tag_title'
+      });
+      this.belongsToMany(models.User, { through: models.User_Tags, onDelete: 'SETNULL', onUpdate: "CASCADE", });
     }
   }
-  User.init({
+  Tag.init({
     id: {
       type: DataTypes.UUID,
       primaryKey: true,
       defaultValue: DataTypes.UUIDV1,
+      allowNull: false
     },
-    firstName: {
-      type: DataTypes.STRING,
-    },
-    lastName: {
-      type: DataTypes.STRING,
-    },
-    rating: {
-      type: DataTypes.NUMBER,
-      defaultValue: 0
-    },
-    position: {
-      type: DataTypes.STRING,
-    },
-    about: {
-      type: DataTypes.TEXT
-    },
-    office: {
+    title: {
       type: DataTypes.STRING
-    }
+    },
   }, {
     sequelize,
-    modelName: 'User',
-    tableName: 'users',
+    modelName: 'Tag',
+    tableName: 'tags',
     timestamps: false
   });
-  return User;
+  return Tag;
 };
