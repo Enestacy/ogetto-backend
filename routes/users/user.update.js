@@ -3,7 +3,7 @@ const router = express.Router();
 const { defaultError } = require("../../errors");
 const db = require("../../models");
 
-router.patch("/user/:id", async function (req, res) {
+router.patch("/update-profile/:id", async function (req, res) {
   try {
     const {
       params: { id },
