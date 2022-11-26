@@ -12,6 +12,7 @@ module.exports = (sequelize, DataTypes) => {
      */
     static associate(models) {
       this.belongsToMany(models.Tag, { through: models.User_Tags, onDelete: 'cascade' });
+      this.belongsToMany(models.Task, { through: models.User_Tasks, onDelete: 'CASCADE', onUpdate: "CASCADE", });
     }
   }
   User.init({
