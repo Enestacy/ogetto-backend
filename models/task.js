@@ -9,6 +9,7 @@ module.exports = (sequelize, DataTypes) => {
       this.belongsTo(models.Tag, {
         foreignKey: 'tag'
       });
+      this.belongsToMany(models.User, { through: models.User_Tasks, onDelete: 'CASCADE' });
     }
   }
   Task.init({
