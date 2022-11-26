@@ -9,6 +9,7 @@ router.get("/random-tasks", async function (req, res) {
 
     const tasks = await Task.findAndCountAll()
     const { rows, count } = tasks
+    const { body: { userId } } = req
 
     function between(min, max) {
       return Math.floor(
@@ -19,7 +20,24 @@ router.get("/random-tasks", async function (req, res) {
     const second = between(0, count)
     const third = between(0, count)
 
-    return res.send([rows[first], rows[second], rows[third]]);
+    const user = await User.findOne({
+      where: {
+        id: userId
+      },
+      include: Task
+    })
+
+    await user.addTask(rows[first])
+    await user.addTask([rows[second], rows[third]])
+
+    const updatedUser = await User.findOne({
+      where: {
+        id: userId
+      },
+      include: Task
+    })
+
+    return res.send(updatedUser);
   } catch (error) {
     return res.status(500).send(error);
   }
