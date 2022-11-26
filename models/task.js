@@ -39,7 +39,8 @@ module.exports = (sequelize, DataTypes) => {
     },
     tag: {
       type: DataTypes.UUID
-    }
+    },
+    category: { type: DataTypes.ENUM(["quite", "social-party", "online-activity"]) }
   }, {
     sequelize,
     modelName: 'Task',
