@@ -3,7 +3,7 @@ const router = express.Router();
 const db = require("../../models");
 const { defaultError } = require("../../errors");
 
-router.post("/create-task", async function (req, res) {
+router.post("/create-tag", async function (req, res) {
   try {
     const { body } = req;
     const sameTag = await db.Tag.findOne({
@@ -17,7 +17,7 @@ router.post("/create-task", async function (req, res) {
         "This tag already exists"
       );
     }
-    const newTask = await db.Task.create({ ...body });
+    const newTask = await db.Tag.create({ ...body });
     return res.send(newTask);
 
   } catch (error) {
