@@ -14,7 +14,7 @@ module.exports = (sequelize, DataTypes) => {
         foreignKey: 'tag',
         as: 'tag_title'
       });
-      this.belongsToMany(models.User, { through: models.User_Tags });
+      this.belongsToMany(models.User, { through: models.User_Tags, onDelete: 'SETNULL', onUpdate: "CASCADE", });
     }
   }
   Tag.init({
