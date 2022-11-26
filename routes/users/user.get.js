@@ -8,7 +8,8 @@ router.get("/user/:id", async function (req, res) {
     const user = await db.User.findOne({
       where: {
         id
-      }
+      },
+      include: db.Tag
     })
     return res.send(user);
   } catch (error) {

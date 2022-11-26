@@ -24,6 +24,9 @@ module.exports = (sequelize, DataTypes) => {
     firstName: {
       type: DataTypes.STRING,
     },
+    surname: {
+      type: DataTypes.STRING
+    },
     lastName: {
       type: DataTypes.STRING,
     },
@@ -38,6 +41,21 @@ module.exports = (sequelize, DataTypes) => {
       type: DataTypes.TEXT
     },
     office: {
+      type: DataTypes.STRING
+    },
+    tg: {
+      type: DataTypes.STRING
+    },
+    status: {
+      type: DataTypes.ENUM(["quite", "active"])
+    },
+    date_of_birth: {
+      type: DataTypes.STRING
+    },
+    grade: {
+      type: DataTypes.ENUM(["Мидл", "Джуниор", "Синьор", "N/A"])
+    },
+    current_project: {
       type: DataTypes.STRING
     }
   }, {
