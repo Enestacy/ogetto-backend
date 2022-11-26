@@ -4,12 +4,12 @@ const router = express.Router();
 const db = require("../../models");
 const { Task, User, User_Tasks } = db;
 
-router.get("/random-tasks", async function (req, res) {
+router.get("/random-tasks/:userId", async function (req, res) {
   try {
 
     const tasks = await Task.findAndCountAll()
     const { rows, count } = tasks
-    const { body: { userId } } = req
+    const { params: { userId } } = req
 
     function between(min, max) {
       return Math.floor(
