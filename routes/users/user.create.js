@@ -1,12 +1,24 @@
 const express = require("express");
+const { Op } = require("sequelize");
 const router = express.Router();
 const db = require("../../models");
 
 router.post("/create-profile", async function (req, res) {
   try {
     const { body } = req;
-    const newUser = await db.User.create({ ...body });
-    return res.send(newUser);
+    const { firstName, lastName, position, tags } = body
+    const newUser = await db.User.create({ firstName, lastName, position });
+    const tagTitles = await db.Tag.findAll({
+      where: {
+        title: {
+          [Op.or]: tags
+        }
+      }
+    })
+
+    await newUser.addTag(tagTitles);
+
+    return res.send({ newUser: newUser, tagTitles: tagTitles });
   } catch (error) {
     return res.status(500).send(error);
   }
