@@ -15,8 +15,6 @@ router.patch("/mark-as-done", async function (req, res) {
         taskCode: {
           id: taskCode,
         },
-        returning: true,
-        plain: true,
       }
     );
     const currentUser = await db.User.findOne(
@@ -24,25 +22,22 @@ router.patch("/mark-as-done", async function (req, res) {
         where: {
           id: userId,
         },
-        returning: true,
-        plain: true,
       }
     );
-    const ratingCondition = myRating - currentUser.rating;
-    if (ratingCondition === 30 || ratingCondition === -30) {
+    const ratingDifference = (myRating - currentUser.rating)
+    const condition = ratingDifference > 30 || ratingDifference < (-30)
+    if (condition) {
       await currentUser.addTask(updatedTask, { through: { isDone: true } })
-      const updatedUser = await db.User.update(
+      const newRating = currentUser.rating + updatedTask.point
+      const [_, updatedUser] = await db.User.update(
+        { rating: newRating, },
         {
-          rating: Sequelize.literal(`rating + ${updatedTask.point}`),
           where: {
             id: userId,
           },
           include: db.Task,
-          returning: true,
-          plain: true,
         }
       );
-
       return res.send(updatedUser);
     } else {
       throw defaultError(

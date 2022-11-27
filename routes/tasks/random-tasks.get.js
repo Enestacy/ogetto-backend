@@ -2,7 +2,7 @@ const express = require("express");
 const { Op, Sequelize } = require("sequelize");
 const router = express.Router();
 const db = require("../../models");
-const { Task, User, User_Tasks, Tag } = db;
+const { Task, User, Tag } = db;
 
 router.get("/random-tasks/:userId", async function (req, res) {
   try {
