@@ -2,14 +2,25 @@ const express = require("express");
 const { Op, Sequelize } = require("sequelize");
 const router = express.Router();
 const db = require("../../models");
-const { Task, User, User_Tasks } = db;
+const { Task, User, Tag } = db;
 
 router.get("/random-tasks/:userId", async function (req, res) {
   try {
-
-    const tasks = await Task.findAndCountAll()
-    const { rows, count } = tasks
     const { params: { userId } } = req
+    const me = await User.findOne({
+      where: {
+        id: userId
+      },
+    })
+    const tasks = me.status === 'quite' ? await Task.findAndCountAll({
+      attributes: { exclude: ["tag"] },
+      where: {
+        category: "quite"
+      },
+      include: [{ model: Tag, attributes: { exclude: ["id"] } }],
+    }) : await Task.findAndCountAll()
+
+    const { rows, count } = tasks
 
     function between(min, max) {
       return Math.floor(
@@ -19,14 +30,12 @@ router.get("/random-tasks/:userId", async function (req, res) {
     const first = between(0, count)
     const second = between(0, count)
     const third = between(0, count)
-
     const user = await User.findOne({
       where: {
         id: userId
       },
       include: Task
     })
-
     await user.addTask(rows[first])
     await user.addTask([rows[second], rows[third]])
 
