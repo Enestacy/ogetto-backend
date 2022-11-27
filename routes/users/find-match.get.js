@@ -8,7 +8,7 @@ const { User_Tags, Tag } = db;
 router.patch("/find-match", async function (req, res) {
   try {
     const {
-      body: { tags },
+      body: { tags, id },
     } = req;
 
     const firstTag = tags[0];
@@ -16,6 +16,11 @@ router.patch("/find-match", async function (req, res) {
     const thirdTag = tags[2] || null;
 
     const users = await db.User.findAll({
+      where: {
+        id: {
+          [Op.ne]: id
+        }
+      },
       include: [
         {
           model: Tag,
