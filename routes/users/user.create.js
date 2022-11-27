@@ -6,8 +6,8 @@ const db = require("../../models");
 router.post("/create-profile", async function (req, res) {
   try {
     const { body } = req;
-    const { firstName, lastName, position, tags } = body
-    const newUser = await db.User.create({ firstName, lastName, position });
+    const { firstName, lastName, position, surname, about, office, tg, status, date_of_birth, grade, current_project, tags } = body
+    const newUser = await db.User.create({ firstName, lastName, position, surname, about, office, tg, status, date_of_birth, grade, current_project });
     const tagTitles = await db.Tag.findAll({
       where: {
         title: {
