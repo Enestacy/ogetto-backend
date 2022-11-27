@@ -24,22 +24,26 @@ router.patch("/mark-as-done", async function (req, res) {
         },
       }
     );
-    const ratingDifference = (myRating - currentUser.rating)
-    const condition = ratingDifference > 30 || ratingDifference < (-30)
+    const ratingDifference = Math.abs(myRating - currentUser.rating)
+    const condition = ratingDifference > 30
     if (condition) {
       await currentUser.addTask(updatedTask, { through: { isDone: true } })
       const newRating = currentUser.rating + updatedTask.point
       const [_, updatedUser] = await db.User.update(
-        { rating: newRating, },
+        { rating: newRating },
         {
           where: {
             id: userId,
           },
+          returning: true,
+          plain: true,
           include: db.Task,
         }
       );
-      return res.send(updatedUser);
-    } else {
+      console.log("HERE: ", updatedUser)
+      return res.send("ehfggsfesw");
+    }
+    else if (!condition) {
       throw defaultError(
         403,
         "У вас нет на это прав! Разница в рейтинге должна составлять не менее 30 очков"
