@@ -43,7 +43,10 @@ router.get("/random-tasks/:userId", async function (req, res) {
       where: {
         id: userId
       },
-      include: Task
+      include: {
+        model: Task,
+        include: Tag
+      }
     })
 
     return res.send(updatedUser);
